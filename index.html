@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>poster</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Source+Code+Pro:wght@400;600&family=Libre+Franklin:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --navy-mid: #1b2d42;
+    --blue: #1a5276;
+    --accent: #2e86c1;
+    --accent-light: #5dade2;
+    --gold: #c8a951;
+    --white: #f9f7f2;
+    --light-gray: #e8e4dc;
+    --mid-gray: #9ca3af;
+    --text: #1a1a2e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #bbb;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 20px;
+    font-family: 'Libre Franklin', sans-serif;
+  }
+
+  .page {
+    width: 794px;
+    min-height: 1123px;
+    background: var(--white);
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.4);
+    padding-bottom: 48px;
+  }
+
+  .header {
+    background: var(--navy);
+    padding: 22px 36px 18px;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 320px; height: 100%;
+    background: linear-gradient(135deg, transparent 0%, rgba(46,134,193,0.12) 100%);
+    pointer-events: none;
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .badge {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--gold);
+    padding: 3px 8px;
+    opacity: 0.85;
+  }
+  .year {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 8px;
+    color: var(--mid-gray);
+    letter-spacing: 2px;
+  }
+  .title {
+    font-family: 'EB Garamond', serif;
+    font-size: 27px;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+    margin-bottom: 5px;
+  }
+  .title span { color: var(--accent-light); }
+  .subtitle {
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: 300;
+    font-size: 11px;
+    color: var(--light-gray);
+    letter-spacing: 0.3px;
+    line-height: 1.5;
+    max-width: 580px;
+    margin-bottom: 9px;
+  }
+  .authors-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 10px;
+  }
+  .author-pill {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 10px;
+    background: rgba(255,255,255,0.08);
+    color: var(--accent-light);
+    padding: 8px 15px;
+    border: 1px solid rgba(93,173,226,0.35);
+    letter-spacing: 0.5px;
+  }
+  .gold-rule {
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold) 0%, transparent 70%);
+    margin-bottom: 9px;
+  }
+  .meta-row {
+    display: flex;
+    gap: 26px;
+    flex-wrap: wrap;
+  }
+  .meta-item { display: flex; flex-direction: column; gap: 2px; }
+  .meta-label {
+    font-size: 7.5px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+  }
+  .meta-value {
+    font-size: 10px;
+    color: var(--light-gray);
+    font-family: 'Source Code Pro', monospace;
+  }
+
+  .contexte-band {
+    background: #f2ede4;
+    border-bottom: 2px solid var(--light-gray);
+    padding: 12px 36px;
+  }
+  .contexte-band .section-header {
+    margin-bottom: 6px;
+  }
+  .contexte-band .section-body {
+    font-size: 10px;
+    line-height: 1.62;
+    color: var(--text);
+    column-count: 2;
+    column-gap: 28px;
+  }
+  .contexte-band .section-body p { margin-bottom: 4px; }
+  .contexte-band .section-body strong { font-weight: 600; color: var(--navy); }
+
+  .pipeline-band {
+    padding: 12px 36px 10px;
+    border-bottom: 1px solid var(--light-gray);
+  }
+  .pipeline {
+    margin: 8px 0 0;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    flex-wrap: nowrap;
+  }
+  .pipe-step {
+    background: var(--navy);
+    color: var(--white);
+    font-family: 'Source Code Pro', monospace;
+    font-size: 7.5px;
+    padding: 7px 7px;
+    text-align: center;
+    line-height: 1.3;
+    flex: 1;
+  }
+  .pipe-step.accent { background: var(--accent); }
+  .pipe-step.gold {
+    background: var(--gold);
+    color: var(--navy);
+    font-weight: 600;
+  }
+  .pipe-arrow {
+    font-size: 10px;
+    color: var(--navy-mid);
+    flex-shrink: 0;
+    padding: 0 2px;
+  }
+  .pipe-label {
+    font-size: 6.5px;
+    color: rgba(255,255,255,0.55);
+    display: block;
+    margin-top: 2px;
+    font-family: 'Libre Franklin', sans-serif;
+  }
+  .pipe-step.gold .pipe-label { color: rgba(13,27,42,0.6); }
+
+  .body {
+    padding: 14px 36px 14px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+  }
+
+  .section { break-inside: avoid; }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 7px;
+  }
+  .section-num {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 9px;
+    color: var(--gold);
+    font-weight: 600;
+    min-width: 18px;
+  }
+  .section-title {
+    font-family: 'EB Garamond', serif;
+    font-variant: small-caps;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--navy);
+    letter-spacing: 0.2px;
+    text-transform: uppercase;
+  }
+  .section-rule {
+    flex: 1;
+    height: 1px;
+    background: var(--light-gray);
+  }
+  .section-body {
+    font-size: 10px;
+    line-height: 1.62;
+    color: var(--text);
+  }
+  .section-body p { margin-bottom: 5px; }
+  .section-body strong { font-weight: 600; color: var(--navy); }
+  em, i { font-style: normal; }
+
+  .equation-box {
+    background: var(--navy);
+    border-left: 3px solid var(--gold);
+    padding: 7px 12px;
+    margin: 6px 0;
+    font-family: 'Source Code Pro', monospace;
+    font-size: 9px;
+    color: var(--accent-light);
+    line-height: 1.8;
+  }
+  .equation-box .eq-label {
+    font-size: 7px;
+    color: var(--gold);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 2px;
+    font-family: 'Libre Franklin', sans-serif;
+  }
+  .equation-box .comment {
+    color: var(--mid-gray);
+    font-size: 8px;
+  }
+
+  .ctrl-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 9.5px;
+    margin-top: 6px;
+  }
+  .ctrl-table td {
+    padding: 4px 8px;
+    border-bottom: 1px solid var(--light-gray);
+    vertical-align: middle;
+  }
+  .ctrl-table tr:last-child td { border-bottom: none; }
+  .ctrl-table td:first-child { width: 32px; font-size: 12px; text-align: center; }
+  .ctrl-table td:nth-child(2) {
+    font-weight: 600; color: var(--navy); font-size: 9px;
+    text-transform: uppercase; letter-spacing: 0.5px; width: 88px;
+  }
+  .ctrl-table td:nth-child(3) { color: #444; line-height: 1.4; font-size: 9px; }
+
+  .why-item {
+    display: flex; gap: 8px; margin-bottom: 5px; align-items: flex-start;
+  }
+  .why-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--gold); flex-shrink: 0; margin-top: 5px;
+  }
+  .why-dot.blue { background: var(--accent); }
+
+  .future-item {
+    display: flex; gap: 8px; margin-bottom: 5px; align-items: flex-start;
+  }
+  .future-bullet {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 8px; color: var(--gold); flex-shrink: 0;
+    padding-top: 2px; min-width: 14px;
+  }
+
+  .ref-item {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 7.5px; color: var(--mid-gray);
+    margin-bottom: 3px; line-height: 1.4;
+  }
+  .ref-item span { color: var(--gold); }
+
+  .photo-placeholder {
+    margin-top: 10px;
+    border: 1.5px dashed var(--light-gray);
+    background: #f7f4ee;
+    border-radius: 2px;
+    height: 110px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    color: var(--mid-gray);
+  }
+  .photo-placeholder .photo-icon {
+    font-size: 22px;
+    opacity: 0.5;
+  }
+  .photo-placeholder .photo-label {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--mid-gray);
+  }
+  .photo-placeholder .photo-sub {
+    font-size: 8px;
+    color: #bbb;
+    font-family: 'Libre Franklin', sans-serif;
+  }
+
+  .footer {
+    background: var(--navy);
+    padding: 9px 36px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+  }
+  .footer-left {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 7.5px; color: var(--mid-gray); letter-spacing: 1px;
+  }
+  .footer-tech { display: flex; gap: 8px; }
+  .tech-pill {
+    font-family: 'Source Code Pro', monospace;
+    font-size: 7px;
+    background: rgba(255,255,255,0.08);
+    color: var(--accent-light);
+    padding: 2px 6px;
+    border: 1px solid rgba(93,173,226,0.3);
+    letter-spacing: 0.5px;
+  }
+
+  .sp { height: 10px; }
+
+  @media print {
+    body { background: white; padding: 0; }
+    .page { box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header class="header">
+    <div class="header-top">
+      <span class="badge">Traitement du signal audio</span>
+      <span class="year">Teensy</span>
+    </div>
+    <h1 class="title"><span>Réduction de bruit en temps réel</span></h1>
+    <p class="subtitle">Système embarqué de débruitage spectral par filtrage de Wiener sur Teensy 4.0, implémentant une chaîne STFT → Wiener → iSTFT.</p>
+    <div class="authors-row">
+      <span class="author-pill">Ahmed Amine SABIR</span>
+      <span class="author-pill">Louis VICARI</span>
+    </div>
+    <div class="gold-rule"></div>
+  </header>
+
+  <div class="contexte-band">
+    <div class="section-header">
+      <span class="section-num">01</span>
+      <span class="section-title">Contexte &amp; Problématique</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="section-body">
+      <p>Dans les environnements bruités, le signal capté par un microphone est pollué par des <strong>bruits stationnaires</strong> : ventilation, fond sonore continu, souffle électronique. Ces perturbations dégradent <strong>l'intelligibilité de la parole</strong> et saturent les systèmes de communication.</p>
+      <p>Les solutions existantes reposent sur des <strong>modèles neuronaux</strong> nécessitant un GPU ou CPU puissant (ce qui est impossible à embarquer sur du matériel bas coût). Notre système propose un <strong>débruitage temps réel entièrement embarqué</strong> sur Teensy 4.0.</p>
+    </div>
+  </div>
+
+  <div class="pipeline-band">
+    <div class="section-header">
+      <span class="section-num">02</span>
+      <span class="section-title">Chaîne de Traitement</span>
+      <div class="section-rule"></div>
+    </div>
+    <div class="pipeline">
+      <div class="pipe-step">🎙 Audio in<span class="pipe-label">Mic</span></div>
+      <div class="pipe-arrow">▶</div>
+      <div class="pipe-step">Fenêtrage<span class="pipe-label">Hann</span></div>
+      <div class="pipe-arrow">▶</div>
+      <div class="pipe-step accent">FFT<span class="pipe-label">réelle</span></div>
+      <div class="pipe-arrow">▶</div>
+      <div class="pipe-step gold">Wiener<span class="pipe-label">gain spectral</span></div>
+      <div class="pipe-arrow">▶</div>
+      <div class="pipe-step accent">iFFT<span class="pipe-label">inverse</span></div>
+      <div class="pipe-arrow">▶</div>
+      <div class="pipe-step">OLA<span class="pipe-label">Overlap-Add</span></div>
+      <div class="pipe-arrow">▶</div>
+      <div class="pipe-step">🔊 Sortie<span class="pipe-label">Casque</span></div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <div>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-num">03</span>
+          <span class="section-title">Analyse Spectrale (STFT)</span>
+          <div class="section-rule"></div>
+        </div>
+        <div class="section-body">
+          <p>La <strong>Transformée de Fourier à Court Terme</strong> décompose le signal en trames courtes, permettant un traitement fréquentiel  par morceaux. La <strong>fenêtre de Hann</strong> limite les fuites spectrales avant la FFT.</p>
+        </div>
+        <div class="equation-box">
+          <span class="eq-label">Fenêtre de Hann</span>
+          w(n) = 0.5 · (1 − cos(2πn/(N−1)))
+        </div>
+        <div class="equation-box">
+          <span class="eq-label">STFT</span>
+          X[k] = FFT { x(n) * w(n) }
+        </div>
+      </div>
+
+      <div class="sp"></div>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-num">04</span>
+          <span class="section-title">Interface de Contrôle</span>
+          <div class="section-rule"></div>
+        </div>
+        <div class="section-body">
+          <p>Un seul bouton et un potentiomètre permettent de piloter l'ensemble du système.</p>
+        </div>
+        <table class="ctrl-table">
+          <tr>
+            <td></td>
+            <td>Appui court</td>
+            <td>Switch entre audio brut et après traitement</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Appui long</td>
+            <td>Lance la phase d'<strong>apprentissage</strong> du bruit</td>
+          </tr>
+          <tr>
+            <td></td>
+            <td>Potentiomètre</td>
+            <td>Agressivité</strong> du filtre</td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="sp"></div>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-num">—</span>
+          <span class="section-title">Matériel</span>
+          <div class="section-rule"></div>
+        </div>
+        <img src="composants.jpg" style="width:100%; display:block; object-fit:cover; object-position:center top; max-height:185px;">
+      </div>
+
+      <div class="sp"></div>
+    </div>
+
+    <div>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-num">05</span>
+          <span class="section-title">Filtre de Wiener Spectral</span>
+          <div class="section-rule"></div>
+        </div>
+        <div class="section-body">
+          <p>Le filtre de Wiener estime un <strong>gain spectral G[k]</strong>, qui atténue sélectivement les composantes à faible rapport signal/bruit.</p>
+        </div>
+        <div class="equation-box">
+          <span class="eq-label">SNR</span>
+          SNR[k] = |X[k]|² / (N̂[k] + ε)<br>
+        </div>
+        <div class="equation-box">
+          <span class="eq-label">Gain de Wiener</span>
+          G[k] = max(G_min, 1 − α / SNR[k])
+        </div>
+        <div class="equation-box">
+          <span class="eq-label">Lissage temporel</span>
+          G_lissé[k] = 0.7 * G_prev[k] + 0.3 * G[k]
+        </div>
+      </div>
+
+      <div class="sp"></div>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-num">06</span>
+          <span class="section-title">Apprentissage du Bruit</span>
+          <div class="section-rule"></div>
+        </div>
+        <div class="section-body">
+          <p>Lors de la phase d'<strong>apprentissage</strong> (2 s en silence), le profil spectral du bruit ambiant est mis à jour par lissage exponentiel :</p>
+        </div>
+        <div class="equation-box">
+          <span class="eq-label">màj du profil de bruit</span>
+          N[k] = 0.95 · N_prev[k] + 0.05 * |X[k]|²
+        </div>
+      </div>
+
+      <div class="sp"></div>
+
+      <div class="section">
+        <div class="section-header">
+          <span class="section-num">07</span>
+          <span class="section-title">Conclusion &amp; Travaux Futurs</span>
+          <div class="section-rule"></div>
+        </div>
+        <div class="section-body">
+          <p>Nous avons démontré qu'un <strong>filtre de Wiener spectral en temps réel</strong> est réalisable sur microcontrôleur bas coût, avec ~10 % de charge CPU. Continuité potentielle du projet :</p>
+        </div>
+        <div class="future-item">
+          <span class="future-bullet">▸</span>
+          <div class="section-body"><strong>Estimation adaptative</strong> du bruit en continu pour s'affranchir de la phase manuelle.</div>
+        </div>
+        <div class="future-item">
+          <span class="future-bullet">▸</span>
+          <div class="section-body"><strong>Enregistrement</strong> des pistes audios en local ou sur carte SD.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="footer">
+    <span class="footer-left">SON</span>
+    <div class="footer-tech">
+      <span class="tech-pill">Teensy 4.0</span>
+      <span class="tech-pill">arm_rfft_fast_f32</span>
+      <span class="tech-pill">Wiener Filter</span>
+    </div>
+  </footer>
+
+</div>
+</body>
+</html>
